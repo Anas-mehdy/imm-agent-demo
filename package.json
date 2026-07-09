@@ -1,0 +1,12 @@
+{
+  "name": "globalpath-agent-demo-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple GlobalPath immigration agent demo dashboard.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

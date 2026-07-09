@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GlobalPath Agent Demo</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="chat-panel" aria-label="Agent conversation">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">GlobalPath Immigration & Relocation Agency</p>
+            <h1>Agent Demo</h1>
+          </div>
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Live n8n Agent
+          </div>
+        </header>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="composer">
+          <div class="identity">
+            <label>
+              Name
+              <input id="clientName" type="text" value="Demo Client" autocomplete="name" />
+            </label>
+            <label>
+              Phone
+              <input id="clientPhone" type="text" value="+254700000000" autocomplete="tel" />
+            </label>
+          </div>
+          <div class="message-row">
+            <textarea
+              id="messageInput"
+              rows="2"
+              placeholder="Type a client message..."
+              required
+            ></textarea>
+            <button id="sendButton" type="submit" aria-label="Send message">
+              <span>Send</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M3.4 20.4 21 12 3.4 3.6l2 6.9L14 12l-8.6 1.5-2 6.9Z" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="lead-panel" aria-label="Lead qualification">
+        <div class="lead-header">
+          <div>
+            <p class="eyebrow">Lead Qualification</p>
+            <h2>Live Intake</h2>
+          </div>
+          <button id="resetButton" class="icon-button" type="button" title="Reset demo">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.9 6.2A8.7 8.7 0 1 1 3.2 12" />
+              <path d="M4 3v4h4" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="score-card">
+          <div class="score-ring" id="scoreRing">
+            <span id="leadScore">0</span>
+          </div>
+          <div>
+            <p class="label">Lead Score</p>
+            <strong id="leadTemperature">Unqualified</strong>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div class="field">
+            <span>Intent</span>
+            <strong id="intent">-</strong>
+          </div>
+          <div class="field">
+            <span>Destination</span>
+            <strong id="destination">-</strong>
+          </div>
+          <div class="field wide">
+            <span>Service</span>
+            <strong id="service">-</strong>
+          </div>
+          <div class="field wide">
+            <span>Recommended Package</span>
+            <strong id="packageRecommendation">-</strong>
+          </div>
+        </div>
+
+        <section class="process">
+          <h3>Process</h3>
+          <ol id="processSteps">
+            <li data-step="message" class="active">Client message received</li>
+            <li data-step="intent">Intent classified</li>
+            <li data-step="qualification">Missing details identified</li>
+            <li data-step="package">Package recommended</li>
+            <li data-step="handoff">Human handoff decision</li>
+          </ol>
+        </section>
+
+        <section class="summary-block">
+          <h3>Consultant Summary</h3>
+          <p id="consultantSummary">Waiting for the first client message.</p>
+        </section>
+
+        <section class="summary-block">
+          <h3>Flags & Missing Fields</h3>
+          <div id="chips" class="chips">
+            <span class="chip neutral">No data yet</span>
+          </div>
+        </section>
+      </aside>
+    </main>
+
+    <template id="messageTemplate">
+      <article class="message">
+        <div class="bubble"></div>
+      </article>
+    </template>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
