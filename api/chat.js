@@ -8,12 +8,13 @@ function safeJsonParse(value, fallback = {}) {
 
 function normalizeAgentResponse(data) {
   const notification = data.notification || {};
+  const reply = data.reply || notification.reply;
+  if (!reply) {
+    throw new Error("The n8n AI Agent returned an empty reply.");
+  }
   return {
     ok: true,
-    reply:
-      data.reply ||
-      notification.reply ||
-      "Thank you. A GlobalPath consultant can follow up with the next step.",
+    reply,
     intent: data.intent || notification.intent || null,
     service: data.service || notification.service || null,
     destination: data.destination || notification.destination || null,

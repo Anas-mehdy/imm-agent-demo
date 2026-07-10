@@ -92,10 +92,10 @@ async function handleChat(req, res) {
     }
 
     const notification = data.notification || {};
-    const reply =
-      data.reply ||
-      notification.reply ||
-      "Thank you. I have prepared your details for consultant review. A GlobalPath consultant can follow up with the next step.";
+    const reply = data.reply || notification.reply;
+    if (!reply) {
+      throw new Error("The n8n AI Agent returned an empty reply.");
+    }
 
     sendJson(res, 200, {
       ok: true,
