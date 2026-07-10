@@ -52,8 +52,8 @@ function formatValue(value) {
 
 function leadTemperature(score, needsHuman) {
   if (needsHuman) return "Needs Consultant";
-  if (score >= 75) return "Hot Lead";
-  if (score >= 45) return "Warm Lead";
+  if (score >= 85) return "Hot Lead";
+  if (score >= 55) return "Warm Lead";
   if (score > 0) return "Early Lead";
   return "Unqualified";
 }
@@ -69,11 +69,31 @@ function updateProcess(lead) {
   if (lead.packageRecommendation) complete.add("package");
   if (lead.needsHuman || lead.handoffQueued) complete.add("handoff");
 
+  let activeAssigned = false;
   steps.forEach((step) => {
     const name = step.dataset.step;
-    step.classList.toggle("done", complete.has(name));
-    step.classList.toggle("active", !complete.has(name));
+    const isDone = complete.has(name);
+    const isActive = !isDone && !activeAssigned;
+    step.classList.toggle("done", isDone);
+    step.classList.toggle("active", isActive);
+    if (isActive) activeAssigned = true;
   });
+}
+
+function missingFieldLabel(field) {
+  const labels = {
+    age: "Age",
+    originCountry: "Nationality / residence",
+    destination: "Destination",
+    qualification: "Qualification",
+    experienceYears: "Work experience",
+    languageLevel: "Language level",
+    passportStatus: "Valid passport",
+    cvStatus: "Updated CV",
+    serviceNeed: "Support needed",
+    jobOfferStatus: "Job offer"
+  };
+  return labels[field] || String(field).replace(/([a-z])([A-Z])/g, "$1 $2");
 }
 
 function renderChips(lead) {
@@ -99,7 +119,7 @@ function renderChips(lead) {
   missingFields.forEach((field) => {
     const chip = document.createElement("span");
     chip.className = "chip warning";
-    chip.textContent = `Missing: ${field}`;
+    chip.textContent = `Missing: ${missingFieldLabel(field)}`;
     fields.chips.appendChild(chip);
   });
 }
