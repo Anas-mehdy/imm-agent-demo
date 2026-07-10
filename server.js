@@ -3,7 +3,9 @@ const fs = require("fs");
 const path = require("path");
 
 const PORT = Number(process.env.PORT || 4177);
-const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL;
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL
+  ?.trim()
+  .replace("/webhook-test/", "/webhook/");
 
 const PUBLIC_DIR = path.join(__dirname, "public");
 

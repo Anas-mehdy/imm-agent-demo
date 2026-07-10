@@ -36,11 +36,12 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const webhookUrl = process.env.N8N_WEBHOOK_URL;
-  if (!webhookUrl) {
+  const configuredWebhookUrl = process.env.N8N_WEBHOOK_URL;
+  if (!configuredWebhookUrl) {
     res.status(500).json({ ok: false, error: "N8N_WEBHOOK_URL is not configured." });
     return;
   }
+  const webhookUrl = configuredWebhookUrl.trim().replace("/webhook-test/", "/webhook/");
 
   const body = typeof req.body === "string" ? safeJsonParse(req.body) : req.body || {};
   const message = String(body.message || "").trim();
