@@ -64,6 +64,7 @@ async function handleChat(req, res) {
     const message = String(body.message || "").trim();
     const name = String(body.name || "Demo Client").trim();
     const phone = String(body.phone || "+10000000000").trim();
+    const sessionId = String(body.sessionId || phone).trim();
 
     if (!message) {
       sendJson(res, 400, { ok: false, error: "Message is required." });
@@ -73,7 +74,7 @@ async function handleChat(req, res) {
     const upstreamResponse = await fetch(N8N_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, phone, message, channel: "demo-dashboard" })
+      body: JSON.stringify({ name, phone, sessionId, message, channel: "demo-dashboard" })
     });
 
     const text = await upstreamResponse.text();
@@ -109,6 +110,7 @@ async function handleChat(req, res) {
       missingFields: data.missingFields || [],
       consultantSummary:
         data.consultantSummary || notification.summary || "No consultant summary yet.",
+      profile: data.profile || {},
       raw: data
     });
   } catch (error) {

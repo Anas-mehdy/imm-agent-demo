@@ -28,6 +28,7 @@ function normalizeAgentResponse(data) {
     missingFields: data.missingFields || [],
     consultantSummary:
       data.consultantSummary || notification.summary || "No consultant summary yet.",
+    profile: data.profile || {},
     raw: data
   };
 }
@@ -48,6 +49,7 @@ module.exports = async function handler(req, res) {
   const message = String(body.message || "").trim();
   const name = String(body.name || "Demo Client").trim();
   const phone = String(body.phone || "+10000000000").trim();
+  const sessionId = String(body.sessionId || phone).trim();
 
   if (!message) {
     res.status(400).json({ ok: false, error: "Message is required." });
@@ -58,7 +60,7 @@ module.exports = async function handler(req, res) {
     const upstreamResponse = await fetch(webhookUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, phone, message, channel: "demo-dashboard" })
+      body: JSON.stringify({ name, phone, sessionId, message, channel: "demo-dashboard" })
     });
 
     const text = await upstreamResponse.text();

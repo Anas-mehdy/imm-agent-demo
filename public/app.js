@@ -1,7 +1,8 @@
 const state = {
   messages: [],
   lastLead: null,
-  isSending: false
+  isSending: false,
+  sessionId: crypto.randomUUID()
 };
 
 const messagesEl = document.querySelector("#messages");
@@ -125,6 +126,7 @@ async function sendMessage(message) {
   const payload = {
     name: nameEl.value.trim() || "Demo Client",
     phone: phoneEl.value.trim() || "+10000000000",
+    sessionId: state.sessionId,
     message
   };
 
@@ -166,6 +168,7 @@ formEl.addEventListener("submit", async (event) => {
 resetButtonEl.addEventListener("click", () => {
   state.messages = [];
   state.lastLead = null;
+  state.sessionId = crypto.randomUUID();
   messagesEl.innerHTML = "";
   updateLeadPanel({
     ok: false,
